@@ -1,11 +1,21 @@
 from bs4 import BeautifulSoup
 
 class Retriever:
+    """Metadata Retriever for vault items.
+    """
 
     def __init__(self):
         pass
 
     def retrieve(self, source):
+        """Retrieves data of all vault items on the page
+
+        Args:
+            source (HTML_string): HTML source string
+
+        Returns:
+            [{}]: List of all Vault Items found on the page
+        """
         soup = BeautifulSoup(source)
         vault_items = []
         container = soup.find('div', class_='category-container vault-page')
