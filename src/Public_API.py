@@ -4,6 +4,7 @@ This holds the Restful API endpoints and API documentation. It also starts the A
 from fastapi.responses import JSONResponse
 from fastapi.encoders import jsonable_encoder
 from typing import Optional
+from fastapi.middleware.cors import CORSMiddleware
 
 from fastapi import FastAPI
 import uvicorn
@@ -11,12 +12,27 @@ import uvicorn
 import json
 from pprint import pprint
 
+
+
 app = FastAPI(
     title="UVAPI - Unreal Vault API",
     description="Unofficial, personalized Epic Games Vault REST API.",
     version="v1",
 
 )
+
+origins = [
+    "*",
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 j = json.load(open('data/dump.json'))
 
 @app.get('/api/v1/vault')
@@ -34,6 +50,7 @@ def get(page: Optional[int] = None):
     else:
         return j
 
+# TODO
 @app.get('/api/v1/vault/sortbyrating')
 def get():
     results = []
@@ -46,9 +63,10 @@ def get():
     page_one = j[0]
     for i in page_one: # for testing: get only first page
         for k in i: # select list of 
-                newlist = sorted(list_to_be_sorted, key=lambda k: k['name']) 
+                newlist = sorted(i, key=lambda k: k['amount_of_ratings']) 
     return 
 
+# TODO
 @app.get('/api/v1/vault/filter')
 def get(publisher: Optional[str] = None):
     results = []
