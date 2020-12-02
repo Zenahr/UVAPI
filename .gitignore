@@ -6,6 +6,7 @@ __pycache__/
 .vscode
 *.html
 data
+*.pkl
 
 # C extensions
 *.so
