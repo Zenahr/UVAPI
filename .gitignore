@@ -6,7 +6,6 @@ __pycache__/
 .vscode
 *.html
 data
-frontend-test
 
 # C extensions
 *.so
