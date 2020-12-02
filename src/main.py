@@ -3,7 +3,7 @@ import selenium.webdriver as webdriver
 import time
 from bs4 import BeautifulSoup
 from VaultItemInfoRetriever import Retriever
-
+import json
 
 
 class API_Feeder:
@@ -23,66 +23,37 @@ class API_Feeder:
     def get_current_feed(self):
         return self.DRIVER.page_source
 
-    def navigate_to_next_page(self):
+    def next_page(self):
         time.sleep(2)
         pagination_button = self.DRIVER.find_element_by_class_name('rc-pagination-next').find_element_by_tag_name('a') # li element. <a> is nested as immediate child.
         active_page_number = self.DRIVER.find_element_by_class_name('rc-pagination-item-active').find_element_by_tag_name('a').get_attribute('innerHTML')
         print('API_Feeder: active page:', active_page_number)
         pagination_button.click()
         time.sleep(1)
-    
 
-feeder = API_Feeder()
-feed   = feeder.get_current_feed()
-feeder.next_page()
-feed   = feeder.get_current_feed()
-retriever = Retriever()
-html_source = feed
-data = retriever.retrieve(html_source)
-print(data)
+    def generate_API_JSON_feed(self):
+        """
+        Summary:
+            Generate JSON file containing all data for all vault items
 
-# # Vault Page Traversal *******************************************************************************
-# for i in range(0, 20):
-#     
-# # Vault Page Traversal *******************************************************************************
-
-
-
-
+        returns:
+            JSON
+        """
+        retriever = Retriever()
+        data = []
+        for i in range(0, 20):
+            data.append(retriever.retrieve(self.get_current_feed))
+            self.next_page()
+            print('API Feeder: generated JSON from webpage')
+        print('API Feeder: Finished generating JSON objects')
+        return json.dump(data)
 
 
+    def __inspect_cookies(self):
+        self.DRIVER.get(self.COOKIE_URL)
+        for k in self.DRIVER.get_cookies():
+            print(k)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-def navigate_to_vault():
-    """
-    Navigate to the vault webpage
-    """
-    pass
-
-def __inspect_cookies():
-    DRIVER.get(COOKIE_URL)
-    for k in DRIVER.get_cookies():
-        print(k)
-
-def save_cookies():
-    DRIVER.get(COOKIE_URL)
-    pickle.dump( DRIVER.get_cookies() , open("cookies.pkl","wb"))
+    def __save_cookies(self):
+        self.DRIVER.get(self.COOKIE_URL)
+        pickle.dump( self.DRIVER.get_cookies() , open("cookies.pkl","wb"))
