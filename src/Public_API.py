@@ -21,24 +21,57 @@ j = json.load(open('data/dump.json'))
 
 @app.get('/api/v1/vault')
 def get(page: Optional[int] = None):
+    """Get all vault items. Pagination is (somewhat) supported.
+
+    Args:
+        page (int, optional): page index. Starts with 0. Defaults to None.
+
+    Returns:
+        Personal Vault items.
+    """
     if page:
         return j[page]
     else:
         return j
 
+@app.get('/api/v1/vault/sortbyrating')
+def get():
+    results = []
+    """
+    i page  (if pages[0] -> list of vault items and k will be vault item)
+    j pages (0 -> page)
+    k list of vault items
+    l vault item
+    """
+    page_one = j[0]
+    for i in page_one: # for testing: get only first page
+        for k in i: # select list of 
+                newlist = sorted(list_to_be_sorted, key=lambda k: k['name']) 
+    return 
+
+@app.get('/api/v1/vault/filter')
+def get(publisher: Optional[str] = None):
+    results = []
+    if publisher:
+            for i in j[0]:
+                for k in j:
+                    for l in k:
+                        if (l['publisher'] == publisher+"\u00a0"):
+                            results.append(l)
+    return results
+
 @app.get('/api/v1/vault/first')
 def get():
     return j[0]
-    
+
 @app.get('/api/v1/vault/last')
 def get():
     return j[-1]
 
 
-# uvicorn.run(app, host='localhost', port=8000)
+uvicorn.run(app, host='localhost', port=8000)
 
 # Churn Section **************************************************************************************************
-for i in j: # i is a page of items. The first items are the items that the user has added most early.
-    pprint(i)
-
+# for i in j: # i is a page of items. The first items are the items that the user has added most early.
+#     pprint(i)
 # Churn Section **************************************************************************************************
