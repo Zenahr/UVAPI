@@ -22,13 +22,11 @@ class API_Feeder:
         for cookie in self.cookies:
             self.DRIVER.add_cookie(cookie)
         self.DRIVER.get(self.VAULT_URL)
-        time.sleep(3)
     
     def get_current_feed(self):
         return self.DRIVER.page_source
 
     def next_page(self):
-        time.sleep(3)
         pagination_button = self.DRIVER.find_element_by_class_name('rc-pagination-next').find_element_by_tag_name('a') # li element. <a> is nested as immediate child.
         active_page_number = self.DRIVER.find_element_by_class_name('rc-pagination-item-active').find_element_by_tag_name('a').get_attribute('innerHTML')
         print('API_Feeder: active page:', active_page_number)
@@ -44,13 +42,14 @@ class API_Feeder:
         """
         
         data = []
-        for i in range(0, 3):
+        for i in range(0, 2):
             sleep(2)
             data.append(self.retriever.retrieve(self.get_current_feed()))
             self.next_page()
             print('API Feeder: generated JSON from webpage')
         print('API Feeder: Finished generating JSON objects')
-        return json.dump(data)
+        with open('data/dump.json', 'w') as output_file:
+            json.dump(data, output_file)
 
 
     def __inspect_cookies(self):
