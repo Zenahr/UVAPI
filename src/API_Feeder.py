@@ -22,7 +22,7 @@ class API_Feeder:
         self.DRIVER     = webdriver.Chrome(chrome_options=options)
         self.DRIVER.maximize_window()
         self.DRIVER.get(self.COOKIE_URL)
-        self.cookies = pickle.load(open("cookies.pkl", "rb"))
+        self.cookies = pickle.load(open("./cookies/cookies.pkl", "rb"))
         for cookie in self.cookies:
             self.DRIVER.add_cookie(cookie)
         self.DRIVER.get(self.VAULT_URL)

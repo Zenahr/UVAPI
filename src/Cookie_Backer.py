@@ -16,7 +16,7 @@ def init():
         print('Cookie Backer: Loading complete.')
         print('Please log into your account.')
         input("when you're logged in, press ENTER here to finish backing the cookies.")
-        pickle.dump(DRIVER.get_cookies() , open("cookies.pkl","wb"))
+        pickle.dump(DRIVER.get_cookies() , open("./cookies/cookies.pkl","wb"))
         print('Cookies are out of the oven and ready to be fed to the JSON generator!')
         print('Please head over to the installation folder and run "Generate_JSON.exe"')
         input('You can close this window now.')
