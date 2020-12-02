@@ -12,7 +12,7 @@ class API_Feeder:
         self.retriever = Retriever()
         options = webdriver.ChromeOptions()
         options.add_argument('--ignore-certificate-errors')
-        # options.add_argument('--headless') # TODO: Add in API prod code
+        options.add_argument('--headless') # TODO: Add in API prod code
         self.COOKIE_URL = 'https://www.unrealengine.com/en-US/'
         self.VAULT_URL  = 'https://www.unrealengine.com/marketplace/en-US/vault'
         self.DRIVER     = webdriver.Chrome(chrome_options=options)
@@ -49,12 +49,12 @@ class API_Feeder:
 
             try:
                 data.append(self.retriever.retrieve(self.get_current_feed()))
+                self.next_page()
             except:
                 print('API Feeder: reached final vault page')
                 json.dump(data, output_file)
                 return data
 
-            self.next_page()
             print('API Feeder: generated JSON from webpage')
 
         print('API Feeder: Finished generating JSON objects')
