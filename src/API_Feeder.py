@@ -32,7 +32,7 @@ class API_Feeder:
         print('API Feeder: active page:', active_page_number)
         pagination_button.click()
 
-    def generate_API_JSON_feed(self):
+    def generate_API_JSON_feed(self, GENERATE_DUMP=False):
         """
         Summary:
             Generate JSON file containing all data for all vault items
@@ -42,6 +42,7 @@ class API_Feeder:
         """
         
         data = []
+        output_file = open('data/dump.json', 'w')
         for i in range(0, 22):
 
             sleep(2)
@@ -50,14 +51,17 @@ class API_Feeder:
                 data.append(self.retriever.retrieve(self.get_current_feed()))
             except:
                 print('API Feeder: reached final vault page')
+                json.dump(data, output_file)
                 return data
 
             self.next_page()
             print('API Feeder: generated JSON from webpage')
-            
+
         print('API Feeder: Finished generating JSON objects')
-        with open('data/dump.json', 'w') as output_file:
+        
+        if(GENERATE_DUMP):
             json.dump(data, output_file)
+            print('API Feeder: generated JSON dump file')
         return data
 
 
@@ -71,5 +75,5 @@ class API_Feeder:
         pickle.dump( self.DRIVER.get_cookies() , open("cookies.pkl","wb"))
 
 runtime = API_Feeder()
-json = runtime.generate_API_JSON_feed()
+json = runtime.generate_API_JSON_feed(GENERATE_DUMP=True)
 print(json)
