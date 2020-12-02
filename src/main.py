@@ -1,24 +1,25 @@
 import pickle
 import selenium.webdriver as webdriver
 import time
+from VaultItemInfoRetriever import Retriever
 
 # Init *******************************************************************************
-options    = webdriver.ChromeOptions()
-options.add_argument('--ignore-certificate-errors')
-# options.add_argument('--headless') # TODO: Add in API prod code
-COOKIE_URL = 'https://www.unrealengine.com/en-US/'
-VAULT_URL  = 'https://www.unrealengine.com/marketplace/en-US/vault'
-DRIVER     = webdriver.Chrome(chrome_options=options)
-DRIVER.maximize_window()
-# Init *******************************************************************************
+# options    = webdriver.ChromeOptions()
+# options.add_argument('--ignore-certificate-errors')
+# # options.add_argument('--headless') # TODO: Add in API prod code
+# COOKIE_URL = 'https://www.unrealengine.com/en-US/'
+# VAULT_URL  = 'https://www.unrealengine.com/marketplace/en-US/vault'
+# DRIVER     = webdriver.Chrome(chrome_options=options)
+# DRIVER.maximize_window()
+# # Init *******************************************************************************
 
-# Run *******************************************************************************
-DRIVER.get(COOKIE_URL)
-cookies = pickle.load(open("cookies.pkl", "rb"))
-for cookie in cookies:
-    DRIVER.add_cookie(cookie)
-DRIVER.get(VAULT_URL)
-page_source = DRIVER.page_source
+# # Run *******************************************************************************
+# DRIVER.get(COOKIE_URL)
+# cookies = pickle.load(open("cookies.pkl", "rb"))
+# for cookie in cookies:
+#     DRIVER.add_cookie(cookie)
+# DRIVER.get(VAULT_URL)
+# page_source = DRIVER.page_source
 
 # # Vault Page Traversal *******************************************************************************
 # for i in range(0, 20):
@@ -34,9 +35,10 @@ page_source = DRIVER.page_source
 
 
 
-
-
-
+retriever = Retriever()
+html_source = open('test.html', 'r')
+data = retriever.retrieve(html_source)
+print(data)
 
 
 
