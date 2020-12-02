@@ -29,7 +29,7 @@ class API_Feeder:
     def next_page(self):
         pagination_button = self.DRIVER.find_element_by_class_name('rc-pagination-next').find_element_by_tag_name('a') # li element. <a> is nested as immediate child.
         active_page_number = self.DRIVER.find_element_by_class_name('rc-pagination-item-active').find_element_by_tag_name('a').get_attribute('innerHTML')
-        print('API_Feeder: active page:', active_page_number)
+        print('API Feeder: active page:', active_page_number)
         pagination_button.click()
 
     def generate_API_JSON_feed(self):
@@ -42,14 +42,23 @@ class API_Feeder:
         """
         
         data = []
-        for i in range(0, 2):
+        for i in range(0, 22):
+
             sleep(2)
-            data.append(self.retriever.retrieve(self.get_current_feed()))
+
+            try:
+                data.append(self.retriever.retrieve(self.get_current_feed()))
+            except:
+                print('API Feeder: reached final vault page')
+                return data
+
             self.next_page()
             print('API Feeder: generated JSON from webpage')
+            
         print('API Feeder: Finished generating JSON objects')
         with open('data/dump.json', 'w') as output_file:
             json.dump(data, output_file)
+        return data
 
 
     def __inspect_cookies(self):
