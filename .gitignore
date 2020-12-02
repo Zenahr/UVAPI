@@ -8,6 +8,7 @@ __pycache__/
 data
 *.pkl
 cookies
+test
 
 # C extensions
 *.so
