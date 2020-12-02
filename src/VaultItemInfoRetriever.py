@@ -1,8 +1,3 @@
-"""
-The Vault Item Info Retriever component is part of the Pre-Fetch component suite.
-It is meant to be run first and is functions as the base component for the RESTful API service built on top.
-"""
-
 from bs4 import BeautifulSoup
 
 class Retriever:

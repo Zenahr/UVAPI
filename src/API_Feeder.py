@@ -1,3 +1,7 @@
+"""
+The API Feeder is part of the Pre-Fetch component suite.
+"""
+
 import pickle
 from time import sleep
 import selenium.webdriver as webdriver
@@ -69,10 +73,6 @@ class API_Feeder:
         self.DRIVER.get(self.COOKIE_URL)
         for k in self.DRIVER.get_cookies():
             print(k)
-
-    def __save_cookies(self):
-        self.DRIVER.get(self.COOKIE_URL)
-        pickle.dump( self.DRIVER.get_cookies() , open("cookies.pkl","wb"))
 
 runtime = API_Feeder()
 json = runtime.generate_API_JSON_feed(GENERATE_DUMP=True)
