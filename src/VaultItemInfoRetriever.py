@@ -47,7 +47,7 @@ class Retriever:
                     'launcher_link': self.__convert_link_to_launcher_link(item.find('a', class_='mock-ellipsis-item mock-ellipsis-item-helper ellipsis-text')['href']),
                     'publisher'    : item.find('div', class_='creator ellipsis').get_text(),
                     'rating'       : item.find('span', class_='rating-board__count').get_text(),
-                    'img_src'      : urllib.parse.quote(item.find('img')['src']),
+                    'img_src'      : item.find('img')['src'],
                     }
                     vault_items.append(item_data)
                 except:
