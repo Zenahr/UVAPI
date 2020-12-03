@@ -8,7 +8,7 @@ import selenium.webdriver as webdriver
 import os
 
 def init():
-        directory = './test/cookies/'
+        directory = './cookies/'
         options = webdriver.ChromeOptions()
         options.add_argument('--ignore-certificate-errors')
         COOKIE_URL = 'https://www.unrealengine.com/en-US/'

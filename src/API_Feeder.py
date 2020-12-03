@@ -10,13 +10,12 @@ from bs4 import BeautifulSoup
 from VaultItemInfoRetriever import Retriever
 import json
 
-
 class API_Feeder:
     def __init__(self):
         self.retriever = Retriever()
         options = webdriver.ChromeOptions()
         options.add_argument('--ignore-certificate-errors')
-        options.add_argument('--headless') # TODO: Add in API prod code
+        # options.add_argument('--headless') # TODO: Add in API prod code
         self.COOKIE_URL = 'https://www.unrealengine.com/en-US/'
         self.VAULT_URL  = 'https://www.unrealengine.com/marketplace/en-US/vault'
         self.DRIVER     = webdriver.Chrome(chrome_options=options)
@@ -47,7 +46,7 @@ class API_Feeder:
         
         data = []
         output_file = open('data/dump.json', 'w')
-        for i in range(0, 22):
+        for i in range(0, 3):
 
             sleep(2)
 
