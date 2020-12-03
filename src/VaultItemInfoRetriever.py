@@ -7,6 +7,19 @@ class Retriever:
     def __init__(self):
         pass
 
+    def __convert_link_to_launcher_link(self, link):
+        """Converts regular vault item link into launcher link.
+
+        Args:
+            link (string): regular vault item link. Ex. "marketplace/en-US/item/a2e0466f5b4c4c509198c6d9f3aebab4"
+
+        Returns:
+            string: launcher link to vault item. Ex. "com.epicgames.launcher://ue/marketplace/item/a2e0466f5b4c4c509198c6d9f3aebab4"
+        """
+        item_id = link.split('item/')[1]
+        launcher_prefix = 'com.epicgames.launcher://ue/marketplace/item/'
+        return launcher_prefix + item_id
+
     def retrieve(self, source):
         """Retrieves data of all vault items on the page
 
@@ -27,11 +40,11 @@ class Retriever:
             for item in items:
                 try:
                     item_data = {
-                    'name' : item.find('a', class_='mock-ellipsis-item mock-ellipsis-item-helper ellipsis-text').get_text(),
-                    'link' : 'https://www.unrealengine.com' + item.find('a', class_='mock-ellipsis-item mock-ellipsis-item-helper ellipsis-text')['href'],
-                    'publisher' : item.find('div', class_='creator ellipsis').get_text(),
-                    'amount_of_ratings' : item.find('span', class_='rating-board__count').get_text(),
-                    'img_src' : item.find('img')['src'],
+                    'name'         : item.find('a', class_='mock-ellipsis-item mock-ellipsis-item-helper ellipsis-text').get_text(),
+                    'link'         : 'https://www.unrealengine.com' + item.find('a', class_='mock-ellipsis-item mock-ellipsis-item-helper ellipsis-text')['href'],
+                    'launcher_link': self.__convert_link_to_launcher_link(item.find('a', class_='mock-ellipsis-item mock-ellipsis-item-helper ellipsis-text')['href']),                    'publisher'    : item.find('div', class_='creator ellipsis').get_text(),
+                    'rating'       : item.find('span', class_='rating-board__count').get_text(),
+                    'img_src'      : item.find('img')['src'],
                     }
                     vault_items.append(item_data)
                 except:

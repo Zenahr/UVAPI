@@ -9,6 +9,7 @@ data
 *.pkl
 cookies
 test
+temp.py
 
 # C extensions
 *.so
