@@ -15,7 +15,7 @@ class API_Feeder:
         self.retriever = Retriever()
         options = webdriver.ChromeOptions()
         options.add_argument('--ignore-certificate-errors')
-        # options.add_argument('--headless') # TODO: Add in API prod code
+        options.add_argument('--headless') # TODO: Add in API prod code
         self.COOKIE_URL = 'https://www.unrealengine.com/en-US/'
         self.VAULT_URL  = 'https://www.unrealengine.com/marketplace/en-US/vault'
         self.DRIVER     = webdriver.Chrome(chrome_options=options)
@@ -35,7 +35,7 @@ class API_Feeder:
         print('API Feeder: active page:', active_page_number)
         pagination_button.click()
 
-    def generate_API_JSON_feed(self, GENERATE_DUMP=False):
+    def generate_API_JSON_feed(self, GENERATE_DUMP=False, FLATTEN=False):
         """
         Summary:
             Generate JSON file containing all data for all vault items
@@ -46,7 +46,7 @@ class API_Feeder:
         
         data = []
         output_file = open('data/dump.json', 'w')
-        for i in range(0, 3):
+        for i in range(0, 2):
 
             sleep(2)
 
@@ -63,7 +63,11 @@ class API_Feeder:
         print('API Feeder: Finished generating JSON objects')
         
         if(GENERATE_DUMP):
-            json.dump(data, output_file)
+            if(FLATTEN):
+                dump_data = [item for sublist in data for item in sublist]
+                json.dump(dump_data, output_file)
+            else:
+                json.dump(data, output_file)
             print('API Feeder: generated JSON dump file')
         return data
 
@@ -74,5 +78,5 @@ class API_Feeder:
             print(k)
 
 runtime = API_Feeder()
-json = runtime.generate_API_JSON_feed(GENERATE_DUMP=True)
-print(json)
+json = runtime.generate_API_JSON_feed(GENERATE_DUMP=True, FLATTEN=True)
+# print(json)
